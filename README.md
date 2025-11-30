@@ -30,7 +30,7 @@ Case – Negociações na Bolsa de Valores Uma corretora deseja criar um sistema
 
 ### Modelo Conceitual 
 
-![[Conceitual_1.png]]
+![Conceitual](Conceitual_1.png)
 
 #### 1. Gestão de Investidores
 
@@ -56,7 +56,7 @@ Para o item "acompanhar o Saldo de Carteira... que representa a posição atual"
 
 ## Modelo lógico
 
-![[Lógico_1.png]]
+![Logico](Lógico_1.png)
 
 
 #### 1. Estratégia de Chaves Primárias (PK) e Estrangeiras (FK)
@@ -116,7 +116,7 @@ As tabelas transacionais de alto volume (Negocia e Cotacao) utilizam chaves prim
     
 **3. Estratégia de Indexação e Chaves**
 - **Chaves Artificiais (Surrogate):** Entidades como `Investidor`, `Empresa`  e `Acao`utilizam IDs numéricos sequenciais para garantir estabilidade referencial, mesmo se documentos ou nomes mudarem. Se o `Ticker` for a Chave Primária, ele será referenciado como Chave Estrangeira (Foreign Key - FK) em milhões de registros nas tabelas `Negocia`, `Cotacao` e `Possui_saldo`. Para alterar `VVAR3` para `VIIA3`, o banco de dados precisaria realizar um `UPDATE CASCADE` em todas essas tabelas. Em um banco com bilhões de cotações, essa operação bloquearia as tabelas (Table Lock) por horas, causando indisponibilidade do sistema.
-- **Chave Composta:** A tabela `Possui_saldo` utiliza uma chave primária composta (`id_investidor` + `Ticker`) para impedir fisicamente a duplicidade de registros de saldo para um mesmo ativo.
+- **Chave Composta:** A tabela `Possui_saldo` utiliza uma chave primária composta (`id_investidor` + `id_acao`) para impedir fisicamente a duplicidade de registros de saldo para um mesmo ativo.
 
 **4. Integridade Referencial**
 - Foram aplicadas restrições de Foreign Key (FK) rigorosas com cláusulas NOT NULL em relacionamentos obrigatórios, para garantir a consistência dos dados, impedindo, por exemplo, a criação de uma cotação sem ação vinculada ou uma negociação sem investidor. O banco rejeitará qualquer operação que viole essas regras.
@@ -128,5 +128,17 @@ As tabelas transacionais de alto volume (Negocia e Cotacao) utilizam chaves prim
 - A separação física entre o log de transações (Negocia) e o snapshot de posição (Possui_saldo) foi consolidada.
 - Permite que o sistema registre milhões de operações históricas enquanto mantém uma tabela leve e rápida apenas para consultar o saldo atual do investidor, otimizando a performance do "Home Broker".
 
-**6. **Auditoria:****
+**6. Auditoria:**
 - Criação de uma tabela de Log para rastrear alterações críticas.
+
+### Anexos
+
+**Arquivos BR MODELO**
+Conceitual_1.brM3 
+Lógico_1.brM3  
+
+**Arquivos SQL
+
+ddl.sql
+dml.sql 
+dql.sql
