@@ -134,11 +134,11 @@ As tabelas transacionais de alto volume (Negocia e Cotacao) utilizam chaves prim
 ### Anexos
 
 **Arquivos BR MODELO**
-Conceitual_1.brM3 
-Lógico_1.brM3  
+- Conceitual_1.brM3 
+- Lógico_1.brM3  
 
-**Arquivos SQL
+**Arquivos SQL**
 
-ddl.sql
-dml.sql 
-dql.sql
+- ddl.sql
+- dml.sql 
+- dql.sql
