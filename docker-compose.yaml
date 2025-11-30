@@ -1,0 +1,18 @@
+services:
+  database:
+    image: postgres:18.1-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: P@ssw0rd
+      POSTGRES_DB: corretora
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - corretora_network
+volumes:
+  db_data:
+networks:
+  corretora_network:
+    driver: bridge
